@@ -172,3 +172,23 @@ SELECT
     CASE WHEN dia_iso IN (6, 7) THEN 1 ELSE 0 END
 FROM base
 OPTION (MAXRECURSION 0);
+
+
+INSERT INTO dim.tienda
+    (codigo_tienda, nombre_tienda, region, ciudad, formato, fecha_apertura)
+VALUES
+('T-001', 'TEX Piura Centro',     'Piura',       'Piura',      'Tienda calle', '2018-03-12'),
+('T-002', 'TEX Piura Mall Norte', 'Piura',       'Piura',      'Mall',         '2019-09-20'),
+('T-003', 'TEX Piura Sur',        'Piura',       'Piura',      'Isla',         '2021-04-15'),
+('T-004', 'TEX Castilla',         'Piura',       'Castilla',   'Tienda calle', '2020-02-01'),
+('T-005', 'TEX Sullana Centro',   'Piura',       'Sullana',    'Tienda calle', '2017-11-05'),
+('T-006', 'TEX Sullana Mall',     'Piura',       'Sullana',    'Mall',         '2022-06-18'),
+('T-007', 'TEX Paita',            'Piura',       'Paita',      'Isla',         '2021-12-03'),
+('T-008', 'TEX Talara',           'Piura',       'Talara',     'Tienda calle', '2019-05-27'),
+('T-009', 'TEX Chulucanas',       'Piura',       'Chulucanas', 'Isla',         '2023-01-14'),
+('T-010', 'TEX Tumbes Centro',    'Tumbes',      'Tumbes',     'Tienda calle', '2018-08-09'),
+('T-011', 'TEX Tumbes Mall',      'Tumbes',      'Tumbes',     'Mall',         '2022-10-22'),
+('T-012', 'TEX Chiclayo Centro',  'Lambayeque',  'Chiclayo',   'Tienda calle', '2016-07-30'),
+('T-013', 'TEX Chiclayo Mall',    'Lambayeque',  'Chiclayo',   'Mall',         '2020-11-11'),
+('T-014', 'TEX Trujillo Centro',  'La Libertad', 'Trujillo',   'Tienda calle', '2019-03-08'),
+('T-015', 'TEX Trujillo Mall',    'La Libertad', 'Trujillo',   'Mall',         '2023-08-25');
