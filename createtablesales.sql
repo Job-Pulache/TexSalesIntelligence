@@ -208,3 +208,31 @@ VALUES
 ('P-08', 'Plan internet hogar fibra',     'Internet hogar',  79.00),
 ('P-09', 'Accesorios',                    'Accesorios',      35.00),
 ('P-10', 'Protección de equipo',          'Servicios',       25.00);
+
+
+
+
+-- 1) Calendario: esperamos 92 días, del 2026-08-01 al 2026-10-31
+SELECT COUNT(*) AS dias, MIN(fecha) AS desde, MAX(fecha) AS hasta
+FROM dim.calendario;
+
+-- 2) Días por mes: esperamos 31, 30 y 31
+SELECT anio_mes, COUNT(*) AS dias
+FROM dim.calendario
+GROUP BY anio_mes
+ORDER BY anio_mes;
+
+-- 3) Días de fin de semana: esperamos 27
+SELECT SUM(CAST(es_fin_de_semana AS INT)) AS dias_fin_de_semana
+FROM dim.calendario;
+
+-- 4) Tiendas por región: esperamos Piura 9, Tumbes 2, Lambayeque 2, La Libertad 2
+SELECT region, COUNT(*) AS tiendas
+FROM dim.tienda
+GROUP BY region
+ORDER BY tiendas DESC;
+
+-- 5) Productos: esperamos 10 filas
+SELECT COUNT(*) AS productos FROM dim.producto;
+
+select * from dim.tienda;
