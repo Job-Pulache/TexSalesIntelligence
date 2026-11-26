@@ -26,3 +26,15 @@ CREATE TABLE dim.vendedor (
     CONSTRAINT FK_vendedor_tienda FOREIGN KEY (tienda_id)
         REFERENCES dim.tienda (tienda_id)
 );
+
+CREATE TABLE dim.producto (
+    producto_id       INT IDENTITY(1,1) NOT NULL,
+    codigo_producto   VARCHAR(10)       NOT NULL,
+    nombre_producto   VARCHAR(80)       NOT NULL,
+    categoria         VARCHAR(40)       NOT NULL,
+    precio_referencia DECIMAL(10,2)     NOT NULL,
+
+    CONSTRAINT PK_producto        PRIMARY KEY (producto_id),
+    CONSTRAINT UQ_producto_codigo UNIQUE (codigo_producto),
+    CONSTRAINT CK_producto_precio CHECK (precio_referencia >= 0)
+);
