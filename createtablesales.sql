@@ -360,3 +360,27 @@ WHERE codigo_vendedor = 'V-028';
 UPDATE stg.vendedor_semilla
 SET activo_ago = 0, ingreso_fijo = '2026-09-02'
 WHERE codigo_vendedor = 'V-040';
+
+
+
+
+
+INSERT INTO dim.vendedor
+    (codigo_vendedor, nombre_completo, tienda_id, cargo, fecha_ingreso, activo)
+SELECT
+    s.codigo_vendedor,
+    s.nombre_completo,
+    t.tienda_id,
+    s.cargo,
+    COALESCE(
+        s.ingreso_fijo,
+        DATEADD(DAY,
+                ABS(CAST(CHECKSUM(s.codigo_vendedor) AS BIGINT))
+                    % DATEDIFF(DAY, t.fecha_apertura, '2026-06-01'),
+                t.fecha_apertura)
+    ),
+    s.activo
+FROM stg.vendedor_semilla s
+JOIN dim.tienda t
+    ON t.codigo_tienda = s.codigo_tienda
+ORDER BY s.codigo_vendedor;
