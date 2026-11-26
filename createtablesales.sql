@@ -105,3 +105,18 @@ CREATE TABLE fact.meta_vendedor (
     CONSTRAINT CK_meta_vendedor_monto  CHECK (meta_monto >= 0),
     CONSTRAINT CK_meta_vendedor_unid   CHECK (meta_unidades >= 0)
 );
+
+
+CREATE TABLE fact.meta_tienda (
+    tienda_id      INT           NOT NULL,
+    inicio_mes     DATE          NOT NULL,
+    meta_monto     DECIMAL(12,2) NOT NULL,
+    meta_unidades  INT           NOT NULL,
+
+    CONSTRAINT PK_meta_tienda PRIMARY KEY (tienda_id, inicio_mes),
+    CONSTRAINT FK_meta_tienda_tienda     FOREIGN KEY (tienda_id)  REFERENCES dim.tienda (tienda_id),
+    CONSTRAINT FK_meta_tienda_calendario FOREIGN KEY (inicio_mes) REFERENCES dim.calendario (fecha),
+    CONSTRAINT CK_meta_tienda_dia1   CHECK (DAY(inicio_mes) = 1),
+    CONSTRAINT CK_meta_tienda_monto  CHECK (meta_monto >= 0),
+    CONSTRAINT CK_meta_tienda_unid   CHECK (meta_unidades >= 0)
+);
