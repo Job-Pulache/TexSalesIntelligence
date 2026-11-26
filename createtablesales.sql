@@ -236,3 +236,110 @@ ORDER BY tiendas DESC;
 SELECT COUNT(*) AS productos FROM dim.producto;
 
 select * from dim.tienda;
+
+
+USE TEX_Sales_Intelligence;
+GO
+
+CREATE SCHEMA stg;
+GO
+
+CREATE TABLE stg.vendedor_semilla (
+    codigo_vendedor      VARCHAR(10)  NOT NULL,
+    nombre_completo      VARCHAR(100) NOT NULL,
+    codigo_tienda        VARCHAR(10)  NOT NULL,
+    cargo                VARCHAR(30)  NOT NULL,
+    perfil               VARCHAR(20)  NOT NULL,
+    factor_productividad DECIMAL(4,2) NOT NULL,
+    ingreso_fijo         DATE         NULL,
+    activo               BIT NOT NULL CONSTRAINT DF_semilla_activo DEFAULT 1,
+    activo_ago           BIT NOT NULL CONSTRAINT DF_semilla_ago    DEFAULT 1,
+    activo_sep           BIT NOT NULL CONSTRAINT DF_semilla_sep    DEFAULT 1,
+    activo_oct           BIT NOT NULL CONSTRAINT DF_semilla_oct    DEFAULT 1,
+
+    CONSTRAINT PK_vendedor_semilla PRIMARY KEY (codigo_vendedor),
+    CONSTRAINT FK_semilla_tienda   FOREIGN KEY (codigo_tienda)
+        REFERENCES dim.tienda (codigo_tienda),
+    CONSTRAINT CK_semilla_perfil   CHECK (perfil IN ('Estrella','Normal','Rezagado','Baja actividad'))
+);
+GO
+
+INSERT INTO stg.vendedor_semilla
+    (codigo_vendedor, nombre_completo, codigo_tienda, cargo, perfil, factor_productividad)
+VALUES
+-- T-001 Piura Centro
+('V-001','Carlos Alberto Ramírez Vega',      'T-001','Asesor senior',   'Estrella', 1.60),
+('V-002','Lucía Fernanda Torres Medina',     'T-001','Asesor comercial','Normal',   1.05),
+('V-003','Jorge Luis Castillo Ríos',         'T-001','Asesor comercial','Normal',   0.95),
+('V-004','Mariela Soto Chávez',              'T-001','Asesor comercial','Normal',   1.10),
+('V-005','Diego Armando Paredes León',       'T-001','Asesor comercial','Rezagado', 0.60),
+-- T-002 Piura Mall Norte
+('V-006','Andrea Valeria Quispe Huamán',     'T-002','Asesor senior',   'Estrella', 1.70),
+('V-007','Renzo Gabriel Flores Alva',        'T-002','Asesor senior',   'Estrella', 1.50),
+('V-008','Katherine Díaz Montalvo',          'T-002','Asesor comercial','Normal',   1.15),
+('V-009','Luis Miguel Cárdenas Pinto',       'T-002','Asesor comercial','Normal',   1.05),
+('V-010','Rosa Elena Mendoza Ruiz',          'T-002','Asesor comercial','Normal',   1.00),
+-- T-003 Piura Sur
+('V-011','Hugo Sebastián Navarro Aguirre',   'T-003','Asesor comercial','Rezagado', 0.55),
+('V-012','Paola Andrea Salazar Vilca',       'T-003','Asesor comercial','Rezagado', 0.70),
+('V-013','Víctor Raúl Herrera Luna',         'T-003','Asesor comercial','Normal',   0.90),
+-- T-004 Castilla
+('V-014','Milagros Del Pilar Zapata Neira',  'T-004','Asesor senior',   'Normal',   1.10),
+('V-015','Cristian Joel Ochoa Farfán',       'T-004','Asesor comercial','Normal',   1.00),
+('V-016','Fiorella Gutiérrez Sandoval',      'T-004','Asesor comercial','Normal',   0.95),
+('V-017','Eduardo Martín Palacios Ugarte',   'T-004','Asesor comercial','Rezagado', 0.65),
+-- T-005 Sullana Centro
+('V-018','Gladys Marleny Rojas Cevallos',    'T-005','Asesor senior',   'Estrella', 1.45),
+('V-019','Anthony Brandon Vásquez Tello',    'T-005','Asesor comercial','Normal',   1.05),
+('V-020','Yessenia Carbajal Mogollón',       'T-005','Asesor comercial','Normal',   1.00),
+('V-021','Pedro Pablo Sánchez Ordinola',     'T-005','Asesor comercial','Normal',   0.95),
+-- T-006 Sullana Mall
+('V-022','Natalia Isabel Córdova Reyes',     'T-006','Asesor senior',   'Normal',   1.15),
+('V-023','Marco Antonio Alvarado Sullón',    'T-006','Asesor comercial','Normal',   1.05),
+('V-024','Daniela Stefany Chunga Peña',      'T-006','Asesor comercial','Normal',   1.00),
+('V-025','Jesús David Anchundia Calle',      'T-006','Asesor comercial','Normal',   0.90),
+('V-026','Karen Liliana Montero Ato',        'T-006','Asesor comercial','Rezagado', 0.60),
+-- T-007 Paita
+('V-027','Wilmer Enrique Távara Alcas',      'T-007','Asesor comercial','Rezagado', 0.50),
+('V-028','Juana Rosario Chira Yarlequé',     'T-007','Asesor comercial','Normal',   0.85),
+('V-029','Álvaro Jesús Seminario Ramos',     'T-007','Asesor comercial','Rezagado', 0.65),
+-- T-008 Talara
+('V-030','Sandra Patricia Albán Quiroga',    'T-008','Asesor senior',   'Normal',   1.10),
+('V-031','Roberto Carlos Zeta Imán',         'T-008','Asesor comercial','Normal',   1.00),
+('V-032','Evelyn Johana Farías Lizano',      'T-008','Asesor comercial','Normal',   0.95),
+('V-033','Brayan Smith Ruiz Maza',           'T-008','Asesor comercial','Rezagado', 0.70),
+-- T-009 Chulucanas
+('V-034','Nelly Soledad Jiménez Cruz',       'T-009','Asesor comercial','Rezagado', 0.60),
+('V-035','Fabián Ernesto Cruz Neyra',        'T-009','Asesor comercial','Normal',   0.90),
+('V-036','Ingrid Tatiana Calderón Panta',    'T-009','Asesor comercial','Rezagado', 0.55),
+-- T-010 Tumbes Centro
+('V-037','Maribel Cecilia Cunya Rosales',    'T-010','Asesor senior',   'Normal',   1.10),
+('V-038','Joel Ricardo Ramos Heredia',       'T-010','Asesor comercial','Normal',   1.00),
+('V-039','Alejandra Nicole Gonzales Ruiz',   'T-010','Asesor comercial','Normal',   0.95),
+('V-040','Gianfranco Neyra Aponte',          'T-010','Asesor comercial','Normal',   0.90),
+-- T-011 Tumbes Mall
+('V-041','Teresa Johana Bances Arévalo',     'T-011','Asesor senior',   'Normal',   1.15),
+('V-042','Franklin Edwin Pozo Cabrejos',     'T-011','Asesor comercial','Normal',   1.05),
+('V-043','Miriam Alexandra Larrea Silupú',   'T-011','Asesor comercial','Normal',   1.00),
+('V-044','Sergio Andrés Burga Nole',         'T-011','Asesor comercial','Rezagado', 0.65),
+-- T-012 Chiclayo Centro
+('V-045','Claudia Beatriz Fernández Lozada', 'T-012','Asesor senior',   'Estrella', 1.75),
+('V-046','Orlando Jesús Tarrillo Bravo',     'T-012','Asesor comercial','Estrella', 1.45),
+('V-047','Pamela Rocío Llontop Sánchez',     'T-012','Asesor comercial','Normal',   1.10),
+('V-048','Henry Wilder Campos Muro',         'T-012','Asesor comercial','Normal',   1.05),
+-- T-013 Chiclayo Mall
+('V-049','Sofía Alejandra Chávarry Díaz',    'T-013','Asesor senior',   'Normal',   1.20),
+('V-050','Raúl Fernando Santamaría Núñez',   'T-013','Asesor comercial','Normal',   1.00),
+('V-051','Lizbeth Carolina Ayasta Cieza',    'T-013','Asesor comercial','Normal',   0.95),
+('V-052','Omar Alexis Monteza Gil',          'T-013','Asesor comercial','Rezagado', 0.60),
+-- T-014 Trujillo Centro
+('V-053','Valeria Estefanía Arroyo Lescano', 'T-014','Asesor senior',   'Normal',   1.15),
+('V-054','Jhon Anderson Sifuentes Polo',     'T-014','Asesor comercial','Normal',   1.05),
+('V-055','Yuliana Mercedes Rodríguez Ñique', 'T-014','Asesor comercial','Normal',   1.00),
+('V-056','Kevin Joaquín Liñán Cabanillas',   'T-014','Asesor comercial','Baja actividad', 0.25),
+-- T-015 Trujillo Mall
+('V-057','Camila Fernanda Zavaleta Paredes', 'T-015','Asesor senior',   'Estrella', 1.55),
+('V-058','Ricardo Manuel Gamarra Vera',      'T-015','Asesor comercial','Normal',   1.05),
+('V-059','Stephanie Lucero Vargas Alayo',    'T-015','Asesor comercial','Normal',   1.00),
+('V-060','Aldo Giancarlo Espejo Reyes',      'T-015','Asesor comercial','Normal',   0.95);
+GO
