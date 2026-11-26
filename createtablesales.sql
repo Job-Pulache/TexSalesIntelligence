@@ -343,3 +343,20 @@ VALUES
 ('V-059','Stephanie Lucero Vargas Alayo',    'T-015','Asesor comercial','Normal',   1.00),
 ('V-060','Aldo Giancarlo Espejo Reyes',      'T-015','Asesor comercial','Normal',   0.95);
 GO
+
+
+
+-- V-021: renunció a fin de septiembre ? sin ventas en octubre y marcado como inactivo en planilla
+UPDATE stg.vendedor_semilla
+SET activo = 0, activo_oct = 0
+WHERE codigo_vendedor = 'V-021';
+
+-- V-028: licencia en septiembre ? sin ventas ese mes, pero sigue en planilla
+UPDATE stg.vendedor_semilla
+SET activo_sep = 0
+WHERE codigo_vendedor = 'V-028';
+
+-- V-040: ingresó el 2 de septiembre ? sin ventas en agosto
+UPDATE stg.vendedor_semilla
+SET activo_ago = 0, ingreso_fijo = '2026-09-02'
+WHERE codigo_vendedor = 'V-040';
