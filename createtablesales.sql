@@ -89,3 +89,19 @@ CREATE TABLE fact.ventas (
 CREATE NONCLUSTERED INDEX IX_ventas_fecha    ON fact.ventas (fecha);
 CREATE NONCLUSTERED INDEX IX_ventas_tienda   ON fact.ventas (tienda_id);
 CREATE NONCLUSTERED INDEX IX_ventas_vendedor ON fact.ventas (vendedor_id);
+
+
+
+CREATE TABLE fact.meta_vendedor (
+    vendedor_id    INT           NOT NULL,
+    inicio_mes     DATE          NOT NULL,
+    meta_monto     DECIMAL(12,2) NOT NULL,
+    meta_unidades  INT           NOT NULL,
+
+    CONSTRAINT PK_meta_vendedor PRIMARY KEY (vendedor_id, inicio_mes),
+    CONSTRAINT FK_meta_vendedor_vendedor   FOREIGN KEY (vendedor_id) REFERENCES dim.vendedor (vendedor_id),
+    CONSTRAINT FK_meta_vendedor_calendario FOREIGN KEY (inicio_mes)  REFERENCES dim.calendario (fecha),
+    CONSTRAINT CK_meta_vendedor_dia1   CHECK (DAY(inicio_mes) = 1),
+    CONSTRAINT CK_meta_vendedor_monto  CHECK (meta_monto >= 0),
+    CONSTRAINT CK_meta_vendedor_unid   CHECK (meta_unidades >= 0)
+);
