@@ -55,3 +55,10 @@ CREATE TABLE dim.calendario (
     CONSTRAINT CK_calendario_mes CHECK (mes BETWEEN 1 AND 12),
     CONSTRAINT CK_calendario_dia CHECK (dia_semana BETWEEN 1 AND 7)
 );
+
+
+SELECT s.name AS esquema, t.name AS tabla
+FROM sys.tables t
+JOIN sys.schemas s ON s.schema_id = t.schema_id
+WHERE s.name IN ('dim', 'fact')
+ORDER BY s.name, t.name;
