@@ -38,3 +38,20 @@ CREATE TABLE dim.producto (
     CONSTRAINT UQ_producto_codigo UNIQUE (codigo_producto),
     CONSTRAINT CK_producto_precio CHECK (precio_referencia >= 0)
 );
+
+CREATE TABLE dim.calendario (
+    fecha            DATE        NOT NULL,
+    anio             SMALLINT    NOT NULL,
+    mes              TINYINT     NOT NULL,
+    nombre_mes       VARCHAR(15) NOT NULL,
+    anio_mes         CHAR(7)     NOT NULL,   -- formato 'YYYY-MM'
+    inicio_mes       DATE        NOT NULL,
+    semana_iso       TINYINT     NOT NULL,
+    dia_semana       TINYINT     NOT NULL,   -- 1 = lunes ... 7 = domingo
+    nombre_dia       VARCHAR(15) NOT NULL,
+    es_fin_de_semana BIT         NOT NULL,
+
+    CONSTRAINT PK_calendario PRIMARY KEY (fecha),
+    CONSTRAINT CK_calendario_mes CHECK (mes BETWEEN 1 AND 12),
+    CONSTRAINT CK_calendario_dia CHECK (dia_semana BETWEEN 1 AND 7)
+);
