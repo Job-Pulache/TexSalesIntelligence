@@ -83,3 +83,9 @@ CREATE TABLE fact.ventas (
     CONSTRAINT CK_ventas_cantidad   CHECK (cantidad > 0),
     CONSTRAINT CK_ventas_monto      CHECK (monto >= 0)
 );
+
+
+
+CREATE NONCLUSTERED INDEX IX_ventas_fecha    ON fact.ventas (fecha);
+CREATE NONCLUSTERED INDEX IX_ventas_tienda   ON fact.ventas (tienda_id);
+CREATE NONCLUSTERED INDEX IX_ventas_vendedor ON fact.ventas (vendedor_id);
