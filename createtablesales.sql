@@ -11,3 +11,18 @@ CREATE TABLE dim.tienda (
     CONSTRAINT PK_tienda        PRIMARY KEY (tienda_id),
     CONSTRAINT UQ_tienda_codigo UNIQUE (codigo_tienda)
 );
+
+CREATE TABLE dim.vendedor (
+    vendedor_id      INT IDENTITY(1,1) NOT NULL,
+    codigo_vendedor  VARCHAR(10)       NOT NULL,
+    nombre_completo  VARCHAR(100)      NOT NULL,
+    tienda_id        INT               NOT NULL,
+    cargo            VARCHAR(30)       NOT NULL,
+    fecha_ingreso    DATE              NOT NULL,
+    activo           BIT               NOT NULL CONSTRAINT DF_vendedor_activo DEFAULT 1,
+
+    CONSTRAINT PK_vendedor        PRIMARY KEY (vendedor_id),
+    CONSTRAINT UQ_vendedor_codigo UNIQUE (codigo_vendedor),
+    CONSTRAINT FK_vendedor_tienda FOREIGN KEY (tienda_id)
+        REFERENCES dim.tienda (tienda_id)
+);
