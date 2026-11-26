@@ -134,3 +134,41 @@ SELECT
     fk.name AS llave_foranea
 FROM sys.foreign_keys fk
 ORDER BY tabla_hija, tabla_padre;
+
+USE TEX_Sales_Intelligence;
+GO
+
+
+
+
+
+
+
+WITH fechas AS (
+    SELECT CAST('2026-08-01' AS DATE) AS fecha
+    UNION ALL
+    SELECT DATEADD(DAY, 1, fecha) FROM fechas WHERE fecha < '2026-10-31'
+),
+base AS (
+    SELECT
+        fecha,
+        (DATEDIFF(DAY, '19000101', fecha) % 7) + 1 AS dia_iso   -- 1 = lunes ... 7 = domingo
+    FROM fechas
+)
+INSERT INTO dim.calendario
+    (fecha, anio, mes, nombre_mes, anio_mes, inicio_mes,
+     semana_iso, dia_semana, nombre_dia, es_fin_de_semana)
+SELECT
+    fecha,
+    YEAR(fecha),
+    MONTH(fecha),
+    CHOOSE(MONTH(fecha), 'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+                         'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'),
+    CONVERT(CHAR(7), fecha, 23),
+    DATEFROMPARTS(YEAR(fecha), MONTH(fecha), 1),
+    DATEPART(ISO_WEEK, fecha),
+    dia_iso,
+    CHOOSE(dia_iso, 'Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'),
+    CASE WHEN dia_iso IN (6, 7) THEN 1 ELSE 0 END
+FROM base
+OPTION (MAXRECURSION 0);
