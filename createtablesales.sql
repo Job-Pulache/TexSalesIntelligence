@@ -126,3 +126,11 @@ FROM sys.tables t
 JOIN sys.schemas s ON s.schema_id = t.schema_id
 WHERE s.name IN ('dim', 'fact')
 ORDER BY s.name, t.name;
+
+
+SELECT
+    OBJECT_SCHEMA_NAME(fk.parent_object_id) + '.' + OBJECT_NAME(fk.parent_object_id)         AS tabla_hija,
+    OBJECT_SCHEMA_NAME(fk.referenced_object_id) + '.' + OBJECT_NAME(fk.referenced_object_id) AS tabla_padre,
+    fk.name AS llave_foranea
+FROM sys.foreign_keys fk
+ORDER BY tabla_hija, tabla_padre;
