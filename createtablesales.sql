@@ -120,3 +120,9 @@ CREATE TABLE fact.meta_tienda (
     CONSTRAINT CK_meta_tienda_monto  CHECK (meta_monto >= 0),
     CONSTRAINT CK_meta_tienda_unid   CHECK (meta_unidades >= 0)
 );
+
+SELECT s.name AS esquema, t.name AS tabla
+FROM sys.tables t
+JOIN sys.schemas s ON s.schema_id = t.schema_id
+WHERE s.name IN ('dim', 'fact')
+ORDER BY s.name, t.name;
