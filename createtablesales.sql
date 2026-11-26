@@ -192,3 +192,19 @@ VALUES
 ('T-013', 'TEX Chiclayo Mall',    'Lambayeque',  'Chiclayo',   'Mall',         '2020-11-11'),
 ('T-014', 'TEX Trujillo Centro',  'La Libertad', 'Trujillo',   'Tienda calle', '2019-03-08'),
 ('T-015', 'TEX Trujillo Mall',    'La Libertad', 'Trujillo',   'Mall',         '2023-08-25');
+
+
+
+INSERT INTO dim.producto
+    (codigo_producto, nombre_producto, categoria, precio_referencia)
+VALUES
+('P-01', 'Chip prepago',                  'Prepago',        10.00),
+('P-02', 'Línea postpago nueva',          'Postpago',       59.00),
+('P-03', 'Portabilidad postpago',         'Portabilidad',   49.00),
+('P-04', 'Smartphone gama de entrada',    'Equipos',       399.00),
+('P-05', 'Smartphone gama media',         'Equipos',       899.00),
+('P-06', 'Smartphone gama alta',          'Equipos',      2499.00),
+('P-07', 'Router 4G',                     'Internet hogar', 199.00),
+('P-08', 'Plan internet hogar fibra',     'Internet hogar',  79.00),
+('P-09', 'Accesorios',                    'Accesorios',      35.00),
+('P-10', 'Protección de equipo',          'Servicios',       25.00);
