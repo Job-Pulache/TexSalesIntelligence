@@ -62,3 +62,24 @@ FROM sys.tables t
 JOIN sys.schemas s ON s.schema_id = t.schema_id
 WHERE s.name IN ('dim', 'fact')
 ORDER BY s.name, t.name;
+
+
+CREATE TABLE fact.ventas (
+    venta_id      BIGINT IDENTITY(1,1) NOT NULL,
+    operacion_id  VARCHAR(20)          NOT NULL,
+    fecha         DATE                 NOT NULL,
+    tienda_id     INT                  NOT NULL,
+    vendedor_id   INT                  NOT NULL,
+    producto_id   INT                  NOT NULL,
+    cantidad      INT                  NOT NULL,
+    monto         DECIMAL(12,2)        NOT NULL,
+
+    CONSTRAINT PK_ventas          PRIMARY KEY (venta_id),
+    CONSTRAINT UQ_ventas_grano    UNIQUE (operacion_id, producto_id),
+    CONSTRAINT FK_ventas_calendario FOREIGN KEY (fecha)       REFERENCES dim.calendario (fecha),
+    CONSTRAINT FK_ventas_tienda     FOREIGN KEY (tienda_id)   REFERENCES dim.tienda (tienda_id),
+    CONSTRAINT FK_ventas_vendedor   FOREIGN KEY (vendedor_id) REFERENCES dim.vendedor (vendedor_id),
+    CONSTRAINT FK_ventas_producto   FOREIGN KEY (producto_id) REFERENCES dim.producto (producto_id),
+    CONSTRAINT CK_ventas_cantidad   CHECK (cantidad > 0),
+    CONSTRAINT CK_ventas_monto      CHECK (monto >= 0)
+);
